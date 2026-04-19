@@ -16,11 +16,6 @@ public class DocumentDbService
             new CosmosClientOptions 
             { 
                 ConnectionMode = ConnectionMode.Direct,
-                // Recommended for mobile to save battery/bandwidth
-                SerializerOptions = new CosmosSerializationOptions 
-                { 
-                    PropertyNamingPolicy = CosmosPropertyNamingPolicy.CamelCase 
-                }
             }
         );
         

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Litrery.Pages.AddVehiclePage"
+             Title="Add Vehicle">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Cancel" Clicked="OnCancelClicked"/>
+    </ContentPage.ToolbarItems>
+
+    <ScrollView Padding="16">
+        <VerticalStackLayout Spacing="16">
+
+            <Label Text="Make" FontSize="12" TextColor="{AppThemeBinding Light=#666666, Dark=#AAAAAA}"/>
+            <Entry x:Name="MakeEntry" Placeholder="e.g. Suzuki"/>
+
+            <Label Text="Model" FontSize="12" TextColor="{AppThemeBinding Light=#666666, Dark=#AAAAAA}"/>
+            <Entry x:Name="ModelEntry" Placeholder="e.g. Jimny"/>
+
+            <Label Text="Year" FontSize="12" TextColor="{AppThemeBinding Light=#666666, Dark=#AAAAAA}"/>
+            <Entry x:Name="YearEntry" Placeholder="e.g. 2025" Keyboard="Numeric"/>
+
+            <Label Text="Color" FontSize="12" TextColor="{AppThemeBinding Light=#666666, Dark=#AAAAAA}"/>
+            <Entry x:Name="ColorEntry" Placeholder="e.g. White"/>
+
+            <Label Text="Registration number" FontSize="12" TextColor="{AppThemeBinding Light=#666666, Dark=#AAAAAA}"/>
+            <Entry x:Name="RegistrationEntry" Placeholder="e.g. CA 123-456"/>
+
+            <Label Text="VIN" FontSize="12" TextColor="{AppThemeBinding Light=#666666, Dark=#AAAAAA}"/>
+            <Entry x:Name="VinEntry" Placeholder="Vehicle identification number"/>
+
+            <Label Text="Odometer (km)" FontSize="12" TextColor="{AppThemeBinding Light=#666666, Dark=#AAAAAA}"/>
+            <Entry x:Name="OdometerEntry" Placeholder="e.g. 15000" Keyboard="Numeric"/>
+
+            <Button Text="Save Vehicle" 
+                    Clicked="OnSaveClicked"
+                    Margin="0,8"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

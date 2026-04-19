@@ -14,17 +14,28 @@ public partial class MainPage : ContentPage
 
     private async void OnPageLoaded(object? sender, EventArgs e)
     {
-        LoadingIndicator.IsVisible = true;
-        LoadingIndicator.IsRunning = true;
+        await LoadVehicles();
+    }
+    
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        await LoadVehicles();
+    }
 
+    private async Task LoadVehicles()
+    {
         try
         {
+            LoadingIndicator.IsVisible = true;
+            LoadingIndicator.IsRunning = true;
+            
             var vehicles = await _repo.ReadVehicles();
             VehicleList.ItemsSource = vehicles;
         }
         catch (Exception ex)
         {
-            await DisplayAlertAsync("Error", "Failed to load Vehicles", "OK");
+            await DisplayAlertAsync("Error", "An error occured loading vehicles, please try again later.", "OK");
         }
         finally
         {
@@ -35,7 +46,7 @@ public partial class MainPage : ContentPage
 
     private async void OnAddVehicleClicked(object? sender, EventArgs e)
     {
-        // Wire up to add vehicle page later
-        await DisplayAlertAsync("Coming soon", "Add vehicle form goes here", "OK");
+        var page = new NavigationPage(new Pages.AddVehiclePage());
+        await Navigation.PushModalAsync(page);
     }
 }

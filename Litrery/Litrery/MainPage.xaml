@@ -11,8 +11,7 @@
                 <DataTemplate>
                     <Border Margin="0,6" Padding="16" StrokeShape="RoundRectangle 12">
                         <VerticalStackLayout Spacing="4">
-                            <Label Text="{Binding Name}" FontSize="14" TextColor="Gray"/>
-                            <Label Text="{Binding Make, StringFormat='{0}'}" FontSize="18" FontAttributes="Bold"/>
+                            <Label Text="{Binding Make, StringFormat='{0}'}" FontSize="14"/>
                             <Label Text="{Binding Model}" FontSize="18" FontAttributes="Bold"/>
                             <Label Text="{Binding Year}" FontSize="12" TextColor="Gray"/>
                         </VerticalStackLayout>
