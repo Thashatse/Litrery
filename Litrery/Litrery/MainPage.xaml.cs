@@ -1,4 +1,5 @@
 ﻿using Litrery.DataAccess;
+using Litrery.Models;
 
 namespace Litrery;
 
@@ -48,5 +49,14 @@ public partial class MainPage : ContentPage
     {
         var page = new NavigationPage(new Pages.AddVehiclePage());
         await Navigation.PushModalAsync(page);
+    }
+    
+    private async void OnVehicleSelected(object? sender, SelectionChangedEventArgs e)
+    {
+        if (e.CurrentSelection.FirstOrDefault() is not Vehicle vehicle) return;
+        
+        VehicleList.SelectedItem = null;
+        
+        await Navigation.PushAsync(new Pages.VehicleDetailPage(vehicle));
     }
 }

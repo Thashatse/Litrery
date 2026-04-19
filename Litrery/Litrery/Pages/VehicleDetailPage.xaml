@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Litrery.Pages.VehicleDetailPage">
+
+    <Grid RowDefinitions="Auto,Auto,*,Auto" Padding="16">
+
+        <!-- Vehicle header -->
+        <Border Grid.Row="0" Padding="16" Margin="0,0,0,8"
+                StrokeShape="RoundRectangle 12"
+                Stroke="#E0E0E0"
+                BackgroundColor="{AppThemeBinding Light=White, Dark=#1E1E1E}">
+            <Grid ColumnDefinitions="*,Auto">
+                <VerticalStackLayout Grid.Column="0" Spacing="4">
+                    <Label x:Name="VehicleMakeLabel" FontSize="14" FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light=#666666, Dark=#AAAAAA}"/>
+                    <Label x:Name="VehicleModelLabel" FontSize="22"
+                           TextColor="{AppThemeBinding Light=Black, Dark=White}"/>
+                    <Label x:Name="VehicleYearRegLabel" FontSize="12"
+                           TextColor="{AppThemeBinding Light=#999999, Dark=#777777}"/>
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="1" HorizontalOptions="End" Spacing="2">
+                    <Label x:Name="OdometerLabel" FontSize="14" FontAttributes="Bold"
+                           HorizontalOptions="End"
+                           TextColor="{AppThemeBinding Light=Black, Dark=White}"/>
+                    <Label Text="odometer" FontSize="11"
+                           HorizontalOptions="End"
+                           TextColor="{AppThemeBinding Light=#999999, Dark=#777777}"/>
+                </VerticalStackLayout>
+            </Grid>
+        </Border>
+
+        <!-- Stats strip --> 
+        <Border Grid.Row="1" Padding="16,12" Margin="0,0,0,12"
+                StrokeShape="RoundRectangle 12"
+                Stroke="#E0E0E0"
+                BackgroundColor="{AppThemeBinding Light=White, Dark=#1E1E1E}">
+    <Grid ColumnDefinitions="*,*,*,*">
+        <VerticalStackLayout Grid.Column="2" Spacing="2" HorizontalOptions="Center">
+            <Label x:Name="TotalFillsLabel" FontSize="16" FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   TextColor="{AppThemeBinding Light=Black, Dark=White}"/>
+            <Label Text="fill-ups" FontSize="11" HorizontalOptions="Center"
+                   TextColor="{AppThemeBinding Light=#999999, Dark=#777777}"/>
+        </VerticalStackLayout>
+        <VerticalStackLayout Grid.Column="1" Spacing="2" HorizontalOptions="Center">
+            <Label x:Name="AvgCostLabel" FontSize="16" FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   TextColor="{AppThemeBinding Light=Black, Dark=White}"/>
+            <Label Text="avg cost" FontSize="11" HorizontalOptions="Center"
+                   TextColor="{AppThemeBinding Light=#999999, Dark=#777777}"/>
+        </VerticalStackLayout>
+        <VerticalStackLayout Grid.Column="3" Spacing="2" HorizontalOptions="Center">
+            <Label x:Name="AvgDaysLabel" FontSize="16" FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   TextColor="{AppThemeBinding Light=Black, Dark=White}"/>
+            <Label Text="avg days" FontSize="11" HorizontalOptions="Center"
+                   TextColor="{AppThemeBinding Light=#999999, Dark=#777777}"/>
+        </VerticalStackLayout>
+        <VerticalStackLayout Grid.Column="0" Spacing="2" HorizontalOptions="Center">
+            <Label x:Name="AvgConsumptionLabel" FontSize="16" FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   TextColor="{AppThemeBinding Light=Black, Dark=White}"/>
+            <Label Text="avg L/100km" FontSize="11" HorizontalOptions="Center"
+                   TextColor="{AppThemeBinding Light=#999999, Dark=#777777}"/>
+        </VerticalStackLayout>
+    </Grid>
+</Border>
+
+        <!-- Log list -->
+        <CollectionView x:Name="LogList" Grid.Row="2">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border Margin="0,4" Padding="14"
+                            StrokeShape="RoundRectangle 10"
+                            Stroke="#E0E0E0"
+                            BackgroundColor="{AppThemeBinding Light=White, Dark=#1E1E1E}">
+                        <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto">
+
+                            <Label Grid.Row="0" Grid.Column="0"
+                                   Text="{Binding Date, StringFormat='{0:dd MMM yyyy}'}"
+                                   FontSize="13" FontAttributes="Bold"
+                                   TextColor="{AppThemeBinding Light=Black, Dark=White}"/>
+
+                            <Label Grid.Row="0" Grid.Column="1"
+                                   Text="{Binding CostZar, StringFormat='R{0:N2}'}"
+                                   FontSize="13" FontAttributes="Bold"
+                                   TextColor="{AppThemeBinding Light=Black, Dark=White}"/>
+
+                            <Label Grid.Row="1" Grid.Column="0"
+                                   Text="{Binding KilometresDriven, StringFormat='{0:N1} km'}"
+                                   FontSize="12"
+                                   TextColor="{AppThemeBinding Light=#666666, Dark=#AAAAAA}"/>
+
+                            <Label Grid.Row="1" Grid.Column="1"
+                                   Text="{Binding Litres, StringFormat='{0:N3} L'}"
+                                   FontSize="12"
+                                   TextColor="{AppThemeBinding Light=#666666, Dark=#AAAAAA}"/>
+
+                            <Label Grid.Row="2" Grid.Column="0"
+                                   Text="{Binding LPer100Km, StringFormat='{0:N1} L/100km'}"
+                                   FontSize="11"
+                                   TextColor="{AppThemeBinding Light=#999999, Dark=#777777}"/>
+
+                            <Label Grid.Row="2" Grid.Column="1"
+                                   Text="{Binding BarsRemaining, StringFormat='{0}/10 bars'}"
+                                   FontSize="11"
+                                   TextColor="{AppThemeBinding Light=#999999, Dark=#777777}"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Add log button -->
+        <Button Grid.Row="3" Text="+ Add Fill-up"
+                Clicked="OnAddFillUpClicked"
+                Margin="0,8"/>
+    </Grid>
+</ContentPage>

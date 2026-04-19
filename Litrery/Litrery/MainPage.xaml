@@ -6,7 +6,7 @@
 
     <Grid RowDefinitions="*,Auto" Padding="16">
         
-        <CollectionView x:Name="VehicleList" Grid.Row="0">
+        <CollectionView x:Name="VehicleList" Grid.Row="0" SelectionMode="Single" SelectionChanged="OnVehicleSelected">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Border Margin="0,6" Padding="16" StrokeShape="RoundRectangle 12">

@@ -22,4 +22,6 @@ public class Vehicle
     public string RegistrationNumber { get; set; } = string.Empty;
     
     public int Odometer { get; set; }
+
+    public List<FuelLog> Logs { get; set; } = [];
 }
