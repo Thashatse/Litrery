@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Litrery", "Litrery\Litrery.csproj", "{C3310B52-88D8-427F-B827-5F07F801E715}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Litrery", "Litrery\Litrery.csproj", "{36B07B5D-D5FE-48A0-9178-B26C2CDF3058}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -8,11 +8,9 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C3310B52-88D8-427F-B827-5F07F801E715}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C3310B52-88D8-427F-B827-5F07F801E715}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C3310B52-88D8-427F-B827-5F07F801E715}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{C3310B52-88D8-427F-B827-5F07F801E715}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C3310B52-88D8-427F-B827-5F07F801E715}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C3310B52-88D8-427F-B827-5F07F801E715}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{36B07B5D-D5FE-48A0-9178-B26C2CDF3058}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36B07B5D-D5FE-48A0-9178-B26C2CDF3058}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36B07B5D-D5FE-48A0-9178-B26C2CDF3058}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36B07B5D-D5FE-48A0-9178-B26C2CDF3058}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
