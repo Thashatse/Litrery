@@ -4,7 +4,7 @@ namespace Litrery;
 
 public partial class MainPage : ContentPage
 {
-    int count = 0;
+    private readonly VehicleRepository _repo = new();
 
     public MainPage()
     {
@@ -14,23 +14,28 @@ public partial class MainPage : ContentPage
 
     private async void OnPageLoaded(object? sender, EventArgs e)
     {
-        var repo = new VehicleRepository();
-        var vehicles = await repo.ReadVehicles();
-        foreach (var vehicle in vehicles)
+        LoadingIndicator.IsVisible = true;
+        LoadingIndicator.IsRunning = true;
+
+        try
         {
-            Console.WriteLine(vehicle.Make);
+            var vehicles = await _repo.ReadVehicles();
+            VehicleList.ItemsSource = vehicles;
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlertAsync("Error", "Failed to load Vehicles", "OK");
+        }
+        finally
+        {
+            LoadingIndicator.IsRunning = false;
+            LoadingIndicator.IsVisible = false;
         }
     }
 
-    private void OnCounterClicked(object? sender, EventArgs e)
+    private async void OnAddVehicleClicked(object? sender, EventArgs e)
     {
-        count++;
-
-        if (count == 1)
-            CounterBtn.Text = $"Clicked {count} time";
-        else
-            CounterBtn.Text = $"Clicked {count} times";
-
-        SemanticScreenReader.Announce(CounterBtn.Text);
+        // Wire up to add vehicle page later
+        await DisplayAlertAsync("Coming soon", "Add vehicle form goes here", "OK");
     }
 }
