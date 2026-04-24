@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Litrery.Pages.AddLogPage"
+             Title="Add Fill-up">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Cancel" Clicked="OnCancelClicked"/>
+    </ContentPage.ToolbarItems>
+
+    <Grid RowDefinitions="*,Auto">
+
+        <!-- Scrollable form -->
+        <ScrollView Grid.Row="0" Padding="16,16,16,0">
+            <VerticalStackLayout Spacing="16">
+
+                <!-- Date & Time -->
+                <Label Text="Date" FontSize="12"
+                       TextColor="{AppThemeBinding Light=#666666, Dark=#AAAAAA}"/>
+                <DatePicker x:Name="DateEntry" Format="dd MMM yyyy"/>
+
+                <Label Text="Time" FontSize="12"
+                       TextColor="{AppThemeBinding Light=#666666, Dark=#AAAAAA}"/>
+                <TimePicker x:Name="TimeEntry" Format="HH:mm"/>
+
+                <!-- Kilometres -->
+                <Label Text="Kilometres driven" FontSize="12"
+                       TextColor="{AppThemeBinding Light=#666666, Dark=#AAAAAA}"/>
+                <Entry x:Name="KilometresEntry"
+                       Placeholder="e.g. 424.2"
+                       Keyboard="Numeric"
+                       IsSpellCheckEnabled="False"
+                       IsTextPredictionEnabled="False"
+                       TextChanged="OnCalculationFieldChanged"/>
+
+                <!-- Litres -->
+                <Label Text="Litres" FontSize="12"
+                       TextColor="{AppThemeBinding Light=#666666, Dark=#AAAAAA}"/>
+                <Entry x:Name="LitresEntry"
+                       Placeholder="e.g. 34.15"
+                       Keyboard="Numeric"
+                       IsSpellCheckEnabled="False"
+                       IsTextPredictionEnabled="False"
+                       TextChanged="OnCalculationFieldChanged"/>
+
+                <!-- L/100km -->
+                <Label Text="L/100km" FontSize="12"
+                       TextColor="{AppThemeBinding Light=#666666, Dark=#AAAAAA}"/>
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                    <Entry x:Name="LPer100KmEntry"
+                           Grid.Column="0"
+                           Placeholder="Auto calculated"
+                           Keyboard="Numeric"
+                           IsSpellCheckEnabled="False"
+                           IsTextPredictionEnabled="False"/>
+                    <Button Grid.Column="1"
+                            Text="Recalc"
+                            Clicked="OnRecalcClicked"
+                            WidthRequest="80"
+                            FontSize="12"/>
+                </Grid>
+                <Label Text="Edit manually to override, or tap Recalc to recalculate from km and litres"
+                       FontSize="11"
+                       TextColor="{AppThemeBinding Light=#999999, Dark=#777777}"/>
+
+                <!-- Cost -->
+                <Label Text="Cost (R)" FontSize="12"
+                       TextColor="{AppThemeBinding Light=#666666, Dark=#AAAAAA}"/>
+                <Entry x:Name="CostEntry"
+                       Placeholder="e.g. 664.90"
+                       Keyboard="Numeric"
+                       IsSpellCheckEnabled="False"
+                       IsTextPredictionEnabled="False"/>
+
+                <!-- Bars -->
+                <Label Text="Bars remaining (out of 10)" FontSize="12"
+                       TextColor="{AppThemeBinding Light=#666666, Dark=#AAAAAA}"/>
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                    <Slider x:Name="BarsSlider"
+                            Grid.Column="0"
+                            Minimum="0"
+                            Maximum="10"
+                            Value="0"
+                            ValueChanged="OnBarsSliderChanged"/>
+                    <Label x:Name="BarsLabel"
+                           Grid.Column="1"
+                           Text="not recorded"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           VerticalOptions="Center"
+                           MinimumWidthRequest="80"
+                           TextColor="{AppThemeBinding Light=Black, Dark=White}"/>
+                </Grid>
+
+                <!-- Notes -->
+                <Label Text="Notes" FontSize="12"
+                       TextColor="{AppThemeBinding Light=#666666, Dark=#AAAAAA}"/>
+                <Editor x:Name="NotesEntry"
+                        Placeholder="Optional notes..."
+                        HeightRequest="80"/>
+
+                <!-- Bottom padding so last field isn't hidden behind button -->
+                <BoxView HeightRequest="16" Color="Transparent"/>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Fixed save button -->
+        <Border Grid.Row="1"
+                Padding="16,12"
+                Stroke="Transparent"
+                BackgroundColor="{AppThemeBinding Light=White, Dark=#121212}">
+            <Button Text="Save Fill-up"
+                    Clicked="OnSaveClicked"/>
+        </Border>
+
+    </Grid>
+</ContentPage>

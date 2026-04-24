@@ -61,7 +61,6 @@ public partial class VehicleDetailPage : ContentPage
 
     private async void OnAddFillUpClicked(object? sender, EventArgs e)
     {
-        throw new NotImplementedException();
-        //   await Navigation.PushModalAsync(new NavigationPage(new AddFillUpPage(_vehicle)));
+        await Navigation.PushModalAsync(new NavigationPage(new AddLogPage(_vehicle)));
     }
 }

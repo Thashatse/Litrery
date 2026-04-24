@@ -65,7 +65,7 @@ public class VehicleRepository
                 partitionKey: new PartitionKey(vehicle.VehicleIdentificationNumber)
             );
 
-            return response?.StatusCode == HttpStatusCode.Created
+            return response?.StatusCode is HttpStatusCode.Created or HttpStatusCode.OK
                 ? response.Resource
                 : throw new Exception($"Upsert failed. HTTP Response: {response?.StatusCode}");
         }
