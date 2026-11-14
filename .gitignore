@@ -51,4 +51,22 @@ CodeCoverage/
 # NUnit
 *.VisualState.xml
 TestResult.xml
-nunit-*.xmlLitrery/Litrery/Resources/AppConsts.cs
+nunit-*.xml
+
+# Holds the Cosmos DB endpoint/key locally. NOTE: this file is already tracked,
+# so this rule does NOT stop `git add -A` / `git commit -a` from committing a
+# filled-in copy. Stage paths explicitly, or run
+# `git update-index --skip-worktree Litrery/Litrery/Resources/AppConsts.cs`.
+Litrery/Litrery/Resources/AppConsts.cs
+
+# App Store Connect API keys (they live in GitHub Actions secrets, never here)
+*.p8
+
+# LitreryiOS (Xcode / Swift rewrite)
+LitreryiOS/LitreryiOS/Config/Secrets.xcconfig
+LitreryiOS/**/xcuserdata/
+LitreryiOS/**/*.xcuserstate
+LitreryiOS/**/project.xcworkspace/xcuserdata/
+LitreryiOS/DerivedData/
+LitreryiOS/.build/
+
