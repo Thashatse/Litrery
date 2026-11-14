@@ -1,0 +1,113 @@
+name: TestFlight
+
+# Every push to main that touches the iOS app runs the tests, then archives,
+# signs and uploads a build to TestFlight. Can also be started by hand from the
+# Actions tab.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "LitreryiOS/**"
+      - ".github/workflows/testflight.yml"
+  workflow_dispatch:
+
+# Never run two uploads at once; queue instead of cancelling a half-done upload.
+concurrency:
+  group: testflight
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  testflight:
+    name: Test, archive & upload
+    runs-on: macos-26
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: LitreryiOS
+    env:
+      XCODE_APP: /Applications/Xcode_26.6.app
+      PROJECT: LitreryiOS.xcodeproj
+      SCHEME: LitreryiOS
+      BUILD_NUMBER: ${{ github.run_number }}
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Select Xcode
+        run: |
+          sudo xcode-select -s "$XCODE_APP"
+          xcodebuild -version
+
+      - name: Check secrets
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_PRIVATE_KEY: ${{ secrets.ASC_PRIVATE_KEY }}
+          COSMOS_ENDPOINT: ${{ secrets.COSMOS_ENDPOINT }}
+        run: |
+          missing=0
+          for name in ASC_KEY_ID ASC_ISSUER_ID ASC_PRIVATE_KEY COSMOS_ENDPOINT; do
+            if [ -z "${!name}" ]; then
+              echo "::error::Repository secret $name is not set (see LitreryiOS/ci/set-github-secrets.sh)"
+              missing=1
+            fi
+          done
+          exit $missing
+
+      - name: Write build config
+        env:
+          COSMOS_ENDPOINT: ${{ secrets.COSMOS_ENDPOINT }}
+        run: |
+          # Only the endpoint is baked in; the Cosmos key is entered in-app.
+          # xcconfig treats "//" as a comment, so every "/" becomes $(SLASH).
+          printf 'SLASH = /\nCOSMOS_ENDPOINT = %s\n' "${COSMOS_ENDPOINT//\//\$(SLASH)}" \
+            > LitreryiOS/Config/Secrets.xcconfig
+
+      - name: Run unit tests
+        run: |
+          sim=$(xcrun simctl list devices available -j | jq -r '
+            [.devices | to_entries | sort_by(.key) | reverse[]
+              | select(.key | contains("iOS")) | .value[]
+              | select(.name | startswith("iPhone"))][0].udid')
+          echo "Testing on simulator $sim"
+          xcodebuild test -project "$PROJECT" -scheme "$SCHEME" -destination "id=$sim" -quiet
+
+      - name: Archive (unsigned)
+        run: |
+          # Signing happens at export time with the cloud-managed distribution
+          # certificate, so the runner never needs a local certificate.
+          xcodebuild archive \
+            -project "$PROJECT" -scheme "$SCHEME" -configuration Release \
+            -destination "generic/platform=iOS" \
+            -archivePath "$RUNNER_TEMP/LitreryiOS.xcarchive" \
+            CURRENT_PROJECT_VERSION="$BUILD_NUMBER" \
+            CODE_SIGNING_ALLOWED=NO \
+            -quiet
+
+      - name: Sign and upload to TestFlight
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_PRIVATE_KEY: ${{ secrets.ASC_PRIVATE_KEY }}
+        run: |
+          key_path="$RUNNER_TEMP/asc/AuthKey_${ASC_KEY_ID}.p8"
+          mkdir -p "$(dirname "$key_path")"
+          printf '%s\n' "$ASC_PRIVATE_KEY" > "$key_path"
+          trap 'rm -rf "$RUNNER_TEMP/asc"' EXIT
+
+          xcodebuild -exportArchive \
+            -archivePath "$RUNNER_TEMP/LitreryiOS.xcarchive" \
+            -exportOptionsPlist ci/ExportOptions.plist \
+            -exportPath "$RUNNER_TEMP/export" \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath "$key_path" \
+            -authenticationKeyID "$ASC_KEY_ID" \
+            -authenticationKeyIssuerID "$ASC_ISSUER_ID"
+
+      - name: Summary
+        run: |
+          version=$(/usr/libexec/PlistBuddy -c "Print :ApplicationProperties:CFBundleShortVersionString" "$RUNNER_TEMP/LitreryiOS.xcarchive/Info.plist")
+          echo "Uploaded **Litrery $version ($BUILD_NUMBER)** to App Store Connect. It appears in TestFlight once Apple finishes processing (usually 5–15 minutes)." >> "$GITHUB_STEP_SUMMARY"
