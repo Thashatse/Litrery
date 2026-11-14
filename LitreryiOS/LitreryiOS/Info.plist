@@ -43,8 +43,8 @@
 	     stop every build to ask the export-compliance question. -->
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
-	<!-- Substituted from Config/Secrets.xcconfig at build time (CI writes that file
-	     from the COSMOS_ENDPOINT secret). The Cosmos primary key is deliberately NOT
+	<!-- Substituted from the gitignored Config/Secrets.xcconfig at build time.
+	     The Cosmos primary key is deliberately NOT
 	     here: anything in Info.plist ships readable inside the .ipa. The key is
 	     entered once in-app (CosmosKeyEntryView) and kept in Keychain. -->
 	<key>CosmosEndpoint</key>

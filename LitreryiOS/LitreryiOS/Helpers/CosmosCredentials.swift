@@ -2,9 +2,8 @@ import Foundation
 
 /// Where the app gets its Cosmos connection details at runtime.
 ///
-/// - The endpoint is baked in at build time (Info.plist ← `Config/Secrets.xcconfig`,
-///   which CI writes from the `COSMOS_ENDPOINT` secret). It names the account but
-///   grants no access on its own.
+/// - The endpoint is baked in at build time (Info.plist ← the gitignored
+///   `Config/Secrets.xcconfig`). It names the account but grants no access on its own.
 /// - The primary key is never compiled in. `CosmosKeyEntryView` asks for it once and
 ///   it lives only in this device's Keychain, so a build that leaves this machine
 ///   (TestFlight, App Store) carries no database credentials.

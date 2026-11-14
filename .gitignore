@@ -59,7 +59,7 @@ nunit-*.xml
 # `git update-index --skip-worktree Litrery/Litrery/Resources/AppConsts.cs`.
 Litrery/Litrery/Resources/AppConsts.cs
 
-# App Store Connect API keys (they live in GitHub Actions secrets, never here)
+# App Store Connect API keys: never commit these
 *.p8
 
 # LitreryiOS (Xcode / Swift rewrite)
